@@ -16,10 +16,11 @@ import javafx.scene.layout.AnchorPane;
 
 public class Main extends Application {
 	
-	Point2D a =new Point2D(5,5); 
+	Point2D a =new Point2D(50,50); 
 	Point2D lastPosition = null;
 	Point2D clickPoint;
 	flower l = new flower(a,Color.BLACK,true);
+	flowerbed fl = new flowerbed(50,50,10,10);
 	garden gar;
 	
 	
@@ -31,6 +32,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root,600,600);
 			scene.setFill(Color.BROWN);
 			root.getChildren().add(l.getCircle());
+			root.getChildren().add(fl.getRectangle());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			
@@ -50,8 +52,8 @@ public class Main extends Application {
 					System.out.println("Dragging");
 					double deltaX = clickPoint.getX()-lastPosition.getX();
 					double deltaY = clickPoint.getY()-lastPosition.getY();
-					
-					l.move(deltaX,deltaY);
+					fl.move(deltaX, deltaY);
+					//l.move(deltaX,deltaY);
 				}
 				
 			break;

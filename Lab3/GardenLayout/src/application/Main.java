@@ -19,14 +19,14 @@ public class Main extends Application {
 	Point2D a =new Point2D(5,5); 
 	Point2D lastPosition = null;
 	Point2D clickPoint;
-	boolean inDragMode = false;
+	flower l = new flower(a,Color.BLACK,true);
 	garden gar;
 	
-	List<garden> g = new ArrayList<garden>();
+	
 	@Override
 	public void start(Stage primaryStage) {
-			flower l = new flower(a,Color.BLACK,true);
-			g.add(l);
+			
+		
 			AnchorPane root = new AnchorPane();
 			Scene scene = new Scene(root,600,600);
 			scene.setFill(Color.BROWN);
@@ -40,21 +40,20 @@ public class Main extends Application {
 		@Override
 		public void handle(MouseEvent mouseEvent) {
 			clickPoint = new Point2D(mouseEvent.getX(), mouseEvent.getY());
-			//System.out.println(clickPoint.getX()+" "+clickPoint.getY());
+			System.out.println(clickPoint.getX()+" "+clickPoint.getY());
 			
 			String eventName = mouseEvent.getEventType().getName();
 			switch(eventName) {
 			case("MOUSE_DRAGGED"):
-				inDragMode = true;
-				//if(gar!=null&&lastPosition !=null) {
+				
+				if(lastPosition !=null) {
 					System.out.println("Dragging");
-					//double deltaX = clickPoint.getX()-lastPosition.getX();
-					//double deltaY = clickPoint.getY()-lastPosition.getY();
-					double deltaX = clickPoint.getX();
-					double deltaY = clickPoint.getY();
-					gar.move(deltaX,deltaY);
-				//}
-				inDragMode = false;
+					double deltaX = clickPoint.getX()-lastPosition.getX();
+					double deltaY = clickPoint.getY()-lastPosition.getY();
+					
+					l.move(deltaX,deltaY);
+				}
+				
 			break;
 			}
 			lastPosition = clickPoint;

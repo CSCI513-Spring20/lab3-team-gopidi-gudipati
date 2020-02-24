@@ -1,5 +1,6 @@
 package application;
 
+import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -23,5 +24,9 @@ public void move(double dx, double dy) {
 
 public Rectangle getRectangle(){
 	return rect;
+}
+
+public boolean contains(Point2D point) {
+	return (rect.contains(point));
 }
 }

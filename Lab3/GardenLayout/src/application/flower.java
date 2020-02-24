@@ -29,4 +29,8 @@ public class flower implements garden{
 		circle.setCenterY(circle.getCenterY()+dy);
 
 	}
+	
+	public boolean contains(Point2D point) {
+		return (circle.contains(point));
+	}
 }

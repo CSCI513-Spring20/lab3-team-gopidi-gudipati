@@ -16,14 +16,14 @@ import javafx.scene.layout.AnchorPane;
 
 public class Main extends Application {
 	
-	Point2D a =new Point2D(50,50); 
+	Point2D a =new Point2D(150,150); 
 	Point2D lastPosition = null;
 	Point2D clickPoint;
 	flower l = new flower(a,Color.BLACK,true);
-	flowerbed fl = new flowerbed(50,50,10,10);
-	garden gar;
-	
-	
+	flowerbed fl = new flowerbed(50,50,30,30);
+	garden currentShape;
+	boolean inDragMode = false;
+	List<garden> shapes = new ArrayList<garden>();
 	@Override
 	public void start(Stage primaryStage) {
 			
@@ -33,6 +33,9 @@ public class Main extends Application {
 			scene.setFill(Color.BROWN);
 			root.getChildren().add(l.getCircle());
 			root.getChildren().add(fl.getRectangle());
+			shapes.add(l);
+			shapes.add(fl);
+			
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			
@@ -48,14 +51,17 @@ public class Main extends Application {
 			switch(eventName) {
 			case("MOUSE_DRAGGED"):
 				
-				if(lastPosition !=null) {
+				if(shapes!=null&&lastPosition !=null) {
 					System.out.println("Dragging");
+					currentShape = getShape();
+					//System.out.println(currentShape);
+					inDragMode = true;
 					double deltaX = clickPoint.getX()-lastPosition.getX();
 					double deltaY = clickPoint.getY()-lastPosition.getY();
-					fl.move(deltaX, deltaY);
-					//l.move(deltaX,deltaY);
+					currentShape.move(deltaX, deltaY);
+					
 				}
-				
+			inDragMode = false;	
 			break;
 			}
 			lastPosition = clickPoint;
@@ -65,6 +71,18 @@ public class Main extends Application {
 		scene.setOnMouseDragged(mouseHandler);
 		scene.setOnMouseReleased(mouseHandler);
 		scene.setOnMousePressed(mouseHandler);
+	}
+	
+	public garden getShape() {
+		currentShape =null;
+		for(garden shape : shapes) {
+			if(shape.contains(clickPoint)) {
+				System.out.println(shape);
+				currentShape =shape;
+			}
+		}
+		return currentShape;
+		
 	}
 	public static void main(String[] args) {
 		launch(args);

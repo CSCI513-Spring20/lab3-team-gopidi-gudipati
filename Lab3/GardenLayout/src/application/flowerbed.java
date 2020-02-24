@@ -40,17 +40,12 @@ return inRectangle;
 }
 
 public void addChild(garden currentShape) {
-	System.out.println("added");
+	//SSystem.out.println("added");
 	shapes.add(currentShape);
 	
 }
 
-public void removeChild(garden currentShape) {
-	if(shapes.contains(currentShape)) {
-		shapes.remove(currentShape);
-	}
-	
-}
+
 
 
 }

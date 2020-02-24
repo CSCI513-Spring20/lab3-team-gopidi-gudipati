@@ -8,4 +8,8 @@ public interface garden {
 	}
 
 	public boolean contains(Point2D Point);
+	
+
+
+	
 }

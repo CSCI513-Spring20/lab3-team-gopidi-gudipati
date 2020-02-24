@@ -13,9 +13,9 @@ public class flower implements garden{
 		circle = new Circle();
 		circle.setCenterX(a.getX());
 		circle.setCenterY(a.getY());
-		circle.setRadius(10);
-		circle.setFill(Color.BLUE);
-		circle.setStroke(Color.BLACK);
+		circle.setRadius(50);
+
+		circle.setStroke(Color.BLUE);
 		circle.setStrokeWidth(1);
 		
 		
@@ -33,4 +33,6 @@ public class flower implements garden{
 	public boolean contains(Point2D point) {
 		return (circle.contains(point));
 	}
+	
+
 }

@@ -1,18 +1,21 @@
 package application;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class flowerbed implements garden{
 Rectangle rect = new Rectangle();
-
+List<garden> shapes = new ArrayList<garden>();
 public flowerbed(double x, double y, double width, double height) {
 	rect.setX(x);
 	rect.setY(y);
 	rect.setHeight(height);
 	rect.setWidth(width);
-	rect.setFill(Color.WHITE);
+	rect.setFill(Color.PINK);
 	rect.setStroke(Color.BLACK);
 	rect.setStrokeWidth(1);
 }
@@ -20,6 +23,9 @@ public flowerbed(double x, double y, double width, double height) {
 public void move(double dx, double dy) {
 	rect.setX(rect.getX()+dx);
 	rect.setY(rect.getY()+dy);
+	for(garden shape : shapes) {
+		shape.move(dx, dy);
+	}
 }
 
 public Rectangle getRectangle(){
@@ -27,6 +33,24 @@ public Rectangle getRectangle(){
 }
 
 public boolean contains(Point2D point) {
-	return (rect.contains(point));
+	boolean inRectangle = (point.getX() >= rect.getX() && point.getX() <= rect.getX()+rect.getWidth()
+	&& point.getY()>= rect.getY() && point.getY() <= rect.getY()+rect.getHeight());
+return inRectangle;
+	
 }
+
+public void addChild(garden currentShape) {
+	System.out.println("added");
+	shapes.add(currentShape);
+	
+}
+
+public void removeChild(garden currentShape) {
+	if(shapes.contains(currentShape)) {
+		shapes.remove(currentShape);
+	}
+	
+}
+
+
 }

@@ -1,7 +1,7 @@
 package application;
 import javafx.scene.paint.Color;
 
-import java.awt.Point;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,16 +11,18 @@ import javafx.geometry.Point2D;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+
 import javafx.scene.layout.AnchorPane;
 
 
 public class Main extends Application {
 	
-	Point2D a =new Point2D(150,150); 
+	Point2D a =new Point2D(650,150); 
 	Point2D lastPosition = null;
 	Point2D clickPoint;
+	flowerbed fl = new flowerbed(50,50,300,230);
 	flower l = new flower(a,Color.BLACK,true);
-	flowerbed fl = new flowerbed(50,50,30,30);
+	
 	garden currentShape;
 	boolean inDragMode = false;
 	List<garden> shapes = new ArrayList<garden>();
@@ -29,10 +31,10 @@ public class Main extends Application {
 			
 		
 			AnchorPane root = new AnchorPane();
-			Scene scene = new Scene(root,600,600);
+			Scene scene = new Scene(root,1000,1000);
 			scene.setFill(Color.BROWN);
-			root.getChildren().add(l.getCircle());
-			root.getChildren().add(fl.getRectangle());
+			root.getChildren().addAll(fl.getRectangle(),l.getCircle());
+			
 			shapes.add(l);
 			shapes.add(fl);
 			
@@ -45,29 +47,51 @@ public class Main extends Application {
 		@Override
 		public void handle(MouseEvent mouseEvent) {
 			clickPoint = new Point2D(mouseEvent.getX(), mouseEvent.getY());
-			System.out.println(clickPoint.getX()+" "+clickPoint.getY());
+		//S	System.out.println(clickPoint.getX()+" "+clickPoint.getY());
 			
 			String eventName = mouseEvent.getEventType().getName();
+			if(!inDragMode){
+        		currentShape = getShape();
+        	}
 			switch(eventName) {
 			case("MOUSE_DRAGGED"):
 				
 				if(shapes!=null&&lastPosition !=null) {
-					System.out.println("Dragging");
-					currentShape = getShape();
-					//System.out.println(currentShape);
+					
+					try {
+					
 					inDragMode = true;
+					
 					double deltaX = clickPoint.getX()-lastPosition.getX();
 					double deltaY = clickPoint.getY()-lastPosition.getY();
-					currentShape.move(deltaX, deltaY);
+					currentShape.move(deltaX, deltaY);}
 					
+					
+					catch(NullPointerException e) {
+						
+					}
 				}
-			inDragMode = false;	
+				
+			break;
+			case("MOUSE_RELEASED"):
+				if(shapes!=null && currentShape instanceof flower){
+        			for(garden shape: shapes){
+            			if (shape instanceof flowerbed && shape.contains(clickPoint)){
+            				((flowerbed)shape).addChild(currentShape);
+            				
+            				break;
+            			}
+            			
+            			
+            		}
+			}
+			inDragMode = false;
 			break;
 			}
 			lastPosition = clickPoint;
 		}
 		};
-			
+		
 		scene.setOnMouseDragged(mouseHandler);
 		scene.setOnMouseReleased(mouseHandler);
 		scene.setOnMousePressed(mouseHandler);
@@ -77,7 +101,6 @@ public class Main extends Application {
 		currentShape =null;
 		for(garden shape : shapes) {
 			if(shape.contains(clickPoint)) {
-				System.out.println(shape);
 				currentShape =shape;
 			}
 		}
